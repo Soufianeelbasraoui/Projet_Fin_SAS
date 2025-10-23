@@ -166,120 +166,18 @@ function gestiondesabonnes(){
          }
     }while(choixabonner !== "3");
 }
-//Gestion des emprunts
 
-let emprunts = [];
-function gestiondesemprunts() {
-    //Enregistrer un emprunt
-    function enregistrer_emprunt() {
-        let idabonne = Number(prompt("Entrer l'id abonne : "));
-        let abonne = abonnes.find(a => a.id === idabonne);
-
-        if (!abonne) {
-            console.log("aucun Abonné !");
-            return;
-        }
-
-        let id_livre = Number(prompt("Entrer l'id du livre : "));
-        let livre = livers.find(l => l.id === id_livre);
-
-        if (!livre) {
-            console.log("Livre introuvable !");
-            return;
-        }
-
-        if (!livre.disponible) {
-            console.log("Ce livre est deja emprunte !");
-            return;
-        }
-
-        livre.disponible = false;
-        emprunts.push({ idabonne, id_livre });
-        console.log(`${abonne.nom} a emprunté "${livre.titre}" `);
-    }
-
-    // Enregistrer un retour 
-    function enregistrer_retour() {
-        let id_livre = Number(prompt("Entrer l'id du livre à retourner : "));
-        let emprunt = emprunts.find(e => e.id_livre === id_livre);
-
-        if (!emprunt) {
-            console.log("------------------Aucun emprunt trouve pour ce livre !-----------------");
-            return;
-        }
-
-        let livre = livers.find(l => l.id === id_livre);
-        livre.disponible = true;
-
-      
-        emprunts = emprunts.filter(e => e.id_livre !== id_livre);
-
-        console.log(`Le livre "${livre.titre}" a ete retourne.`);
-    }
-
-    //Afficher les livres empruntés par un abonné 
-    function afficher_livres_empruntes() {
-        let idabonne = Number(prompt("Entrer l'id de l'abonne : "));
-        let abonne = abonnes.find(a => a.id === idabonne);
-
-        if (!abonne) {
-            console.log("------------aucune Abonne !----------------");
-            return;
-        }
-
-        let livresEmpruntes = emprunts.filter(e => e.idabonne === idabonne);
-
-        if (livresEmpruntes.length === 0) {
-            console.log("---------aucun emprunté aucun livre.------------");
-            return;
-        }
-
-        console.log(`Livres empruntés par ${abonne.nom} ${abonne.prenom}:`);
-        livresEmpruntes.map(e => {
-            let livre = livers.find(l => l.id === e.id_livre);
-            console.log(`${livre.titre} `);
-        });
-    }
-    //Menu de gestion des emprunts
-    let choix;
-    do {
-        console.log("--------- Gestion des emprunts ----------");
-        console.log("1: Enregistrer un emprunt");
-        console.log("2: Enregistrer un retour");
-        console.log("3: Afficher les livres empruntés par un abonné");
-        console.log("4: Quitter");
-        choix = prompt("Votre choix : ");
-
-        switch (choix) {
-            case "1":
-                enregistrer_emprunt();
-                break;
-            case "2":
-                enregistrer_retour();
-                break;
-            case "3":
-                afficher_livres_empruntes();
-                break;
-            case "4":
-                console.log("----------------Retour au menu principal...");
-                break;
-            default:
-                console.log("Choix invalide !");
-        }
-    } while (choix !== "4");
-}
 //menu principale
 function menu(){
    let choix;
-   while(choix !=="6"){
+   while(choix !=="5"){
     console.log("----------------------------Bibliothèque--------------------------------------")
     
     console.log("1:=========> Introduire un livre");
     console.log("2:=========> Ajouter plusieurs livres");
     console.log("3:=========> Opérations sur les livres");
     console.log("4:=========> Gestion des abonnés");
-    console.log("5:=========> Gestion des emprunts");
-    console.log("6:=========> Quitter l'application");
+    console.log("5:=========> Quitter l'application");
     choix=prompt("===========> choisir un opération :")
  
     switch(choix){
@@ -294,11 +192,8 @@ function menu(){
             break;     
         case "4":
             gestiondesabonnes();
-            break; 
+            break;         
         case "5":
-            gestiondesemprunts();
-            break;        
-        case "6":
             console.log("------------ Quitter l'application---------------");
             break; 
         default:
